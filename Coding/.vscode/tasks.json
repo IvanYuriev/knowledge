@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build Basics",
+            "label": "build",
             "command": "dotnet",
             "type": "shell",
             "args": [
@@ -15,6 +15,21 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "-p ./Basics",
+                "run"
+            ],
+            "group": "watch",
             "presentation": {
                 "reveal": "silent"
             },
