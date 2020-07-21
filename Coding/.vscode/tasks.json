@@ -26,13 +26,23 @@
             "type": "process",
             "args": [
                 "watch",
-                "-p ./Basics",
-                "run"
+                "--project",
+                "${workspaceFolder}/Basics/Basics.csproj",
+                "run",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
             ],
-            "group": "watch",
-            "presentation": {
-                "reveal": "silent"
-            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test",
+            "command": "dotnet",
+            "type": "process",
+            "group": "test",
+            "args": [
+                "test",
+                "BasicsTests/BasicsTests.csproj"
+            ],
             "problemMatcher": "$msCompile"
         }
     ]
