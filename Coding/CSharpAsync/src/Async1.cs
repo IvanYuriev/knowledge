@@ -4,9 +4,15 @@ using System.Threading.Tasks;
 
 namespace CSharpAsync
 {
+
+public interface IBuilderStateMachine<TResult>
+{
+	void SetBuilderTcs(TaskCompletionSource<TResult> tsc);
+}
+
     internal class Async1
 {
-	private sealed class CountRecursivelyAsyncd__1 : IAsyncStateMachine
+	private struct CountRecursivelyAsyncd__1 : IAsyncStateMachine, IBuilderStateMachine<int>
 	{
 		public int state;
 
@@ -22,7 +28,7 @@ namespace CSharpAsync
 
 
 
-        private void MoveNextOld()
+        private void MoveNextSimple()
 		{
 			int num = state;
 			int result;
@@ -69,6 +75,12 @@ namespace CSharpAsync
 
 		private void MoveNext()
 		{
+			//MoveNextSimple();
+			MoveNextSingleYield();
+		}
+
+		private void MoveNextSingleYield()
+		{
 			int num = state;
 			int result;
 			try
@@ -89,8 +101,8 @@ namespace CSharpAsync
 					{
 						num = (state = 0);
 						u__1 = awaiter2;
-						CountRecursivelyAsyncd__1 stateMachine = this;
-						t__builder.AwaitUnsafeOnCompleted(ref awaiter2, ref stateMachine);
+						//CountRecursivelyAsyncd__1 stateMachine = this;
+						t__builder.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
 						return;
 					}
 				}
@@ -108,8 +120,8 @@ namespace CSharpAsync
 					{
 						num = (state = 1);
 						u__2 = awaiter;
-						CountRecursivelyAsyncd__1 stateMachine = this;
-						t__builder.AwaitUnsafeOnCompleted(ref awaiter, ref stateMachine);
+						//CountRecursivelyAsyncd__1 stateMachine = this;
+						t__builder.AwaitUnsafeOnCompleted(ref awaiter, ref this);
 						return;
 					}
 					goto IL_00fb;
@@ -139,8 +151,13 @@ namespace CSharpAsync
 
 		private void SetStateMachine(IAsyncStateMachine stateMachine)
 		{
+			t__builder.SetStateMachine(stateMachine);
 		}
 
+		void IBuilderStateMachine<int>.SetBuilderTcs(TaskCompletionSource<int> tsc)
+		{
+			t__builder.SetTcs(tsc);
+		}
 		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine stateMachine)
 		{
 			//ILSpy generated this explicit interface implementation from .override directive in SetStateMachine
@@ -148,18 +165,22 @@ namespace CSharpAsync
 		}
 	}
 
-	private static void Run()
+	public static void Run(int countTo)
 	{
 		//Console.WriteLine(Process.GetCurrentProcess().MaxWorkingSet);
-		Console.WriteLine("Counted to {0}.", CountRecursivelyAsync(100000).Result);
+		Console.WriteLine("Counted to {0}.", CountRecursivelyAsync(countTo).Result);
 	}
 
 	private static Task<int> CountRecursivelyAsync(int count)
 	{
 		CountRecursivelyAsyncd__1 stateMachine = new CountRecursivelyAsyncd__1();
 		stateMachine.count = count;
-		stateMachine.t__builder = AsyncTaskMethodBuilder<int>.Create();
+		stateMachine.t__builder = CSharpAsync.AsyncTaskMethodBuilder<int>.Create();
 		stateMachine.state = -1;
+		//stateMachine.t__builder.Start(ref stateMachine);
+		//return stateMachine.t__builder.Task;Í
+
+
 		AsyncTaskMethodBuilder<int> t__builder = stateMachine.t__builder;
 		t__builder.Start(ref stateMachine);
 		return stateMachine.t__builder.Task;

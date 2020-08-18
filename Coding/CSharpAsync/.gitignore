@@ -11,6 +11,7 @@ project.lock.json
 *.suo
 *.user
 *.userosscache
+*.nettrace
 *.sln.docstates
 
 # Build results
