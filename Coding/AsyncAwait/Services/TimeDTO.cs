@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace AsyncAwait
+namespace AsyncAwait.Services
 {
     public sealed class TimeDTO
     {
@@ -17,10 +17,13 @@ namespace AsyncAwait
         [JsonPropertyName("week_number")]
         public int WeekNum { get; set; }
 
-        [JsonIgnore]
-        public int CompletionThreadId { get; set; }
 
         [JsonIgnore]
         public int InitialThreadId { get; set; }
+        [JsonIgnore]
+        public int MiddleThreadId { get; set; }
+
+        [JsonIgnore]
+        public int CompletionThreadId { get; set; }
     }
 }

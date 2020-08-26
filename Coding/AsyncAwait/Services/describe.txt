@@ -1,0 +1,25 @@
+637336547460865740      1       NoTask                          DoWork(4)
+637336547461014070      1       NoTask                          YieldAwaiter before OnCompleted
+637336547462044580      1       NoTask                          YieldAwaiter after OnCompleted
+    637336547462068450      4       NoTask                          YieldAwaiter GetResult
+Running  task: 1        WaitingForActivation
+    637336547472076740      4       NoTask                          DoWork(3)
+    637336547472078930      4       NoTask                          YieldAwaiter before OnCompleted
+        637336547473091900      5       NoTask                          YieldAwaiter GetResult
+    637336547473086850      4       NoTask                          YieldAwaiter after OnCompleted
+    637336547473104560      4       2       WaitingForActivation    DoWork(4) before await
+        637336547483147840      5       NoTask                          DoWork(2)
+        637336547483149720      5       NoTask                          YieldAwaiter before OnCompleted
+            637336547484185790      4       NoTask                          YieldAwaiter GetResult
+        637336547484188630      5       NoTask                          YieldAwaiter after OnCompleted
+        637336547484193880      5       3       WaitingForActivation    DoWork(3) before await
+            637336547494192600      4       NoTask                          DoWork(1)
+        637336547494201130      4       4       RanToCompletion         DoWork(2) before await
+        637336547494207480      4       4       RanToCompletion         DoWork(2) after await
+Task 4 finished in 5
+    637336547494212100      4       3       RanToCompletion         DoWork(3) after await
+637336547494213020      4       2       RanToCompletion         DoWork(4) after await
+
+Task 2 finished in 4
+Task 3 finished in 4
+Finished task: 1        RanToCompletion
